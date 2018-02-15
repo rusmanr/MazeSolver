@@ -14,7 +14,8 @@ public:
     enum SolverType
         {
             BACKTRACKING,
-            ASTAR
+            ASTAR,
+            SIMPLEBOOLEAN
         };
 private:
     Maze* maze;
@@ -22,7 +23,7 @@ private:
     bool isPositionSafe(int x, int y);
     std::vector<std::pair<int, int> > visited;
     int mDistance(const Point &a, const Point &b);
-
+    bool goalReached(int x, int y);
 public:
     MazeSolver(Maze* _maze, SolverType _solver);
     bool solve();
@@ -32,6 +33,7 @@ public:
 
     bool solveMazeWithBacktracking(int x, int y);
     bool solveMazeWithAstar(int x, int y);
+    bool solveMazeWithSimpleBoolean(int x, int y);
 };
 
 #endif // MAZESOLVER_H

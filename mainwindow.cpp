@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QRgb>
 #include <QTimer>
+#include <QElapsedTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -87,9 +88,12 @@ void MainWindow::on_solve_btn_clicked()
     default:
         break;
     }
+    QElapsedTimer currentTime;
+    currentTime.start();
     res = mazeSolver->solve();
     if (res)
     {
+        qDebug() << "Soulution found in: " << currentTime.nsecsElapsed()/1000.0 << " usec";
         std::vector<std::pair<int, int> > visited = mazeSolver->getPath();
         //qDebug() << visited;
         timer = new QTimer();

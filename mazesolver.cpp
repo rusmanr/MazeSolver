@@ -51,9 +51,17 @@ bool MazeSolver::isPositionSafe(int x, int y)
     return (maze->at(x,y) == 0 || maze->at(x,y) == 2);
 }
 
-bool MazeSolver::solveMazeWithBacktracking(int x, int y)
+bool MazeSolver::goalReached(int x, int y)
 {
     if (maze->at(x,y) == 2)
+    {
+        return true;
+    }
+}
+
+bool MazeSolver::solveMazeWithBacktracking(int x, int y)
+{
+    if (goalReached(x,y))
     {
         qDebug() << "Solution found!";
         return true;
@@ -95,7 +103,7 @@ bool MazeSolver::solveMazeWithAstar(int x, int y)
     {
         for (int j = 0; j < maze->getWidth(); j++)
         {
-            visitedNodes[i][j] = 0;
+            visitedNodes[i][j] = false;
             cameFrom[i][j] = Point(1,1);
         }
     }
@@ -180,5 +188,29 @@ bool MazeSolver::solveMazeWithAstar(int x, int y)
     visited.push_back(Point(1,1));
     std::reverse(visited.begin(), visited.end());
     visited.pop_back();
+    return false;
+}
+
+bool MazeSolver::solveMazeWithSimpleBoolean(int x, int y)
+{
+    int MAX_STEPS = 1000;
+    if (goalReached(x,y))
+    {
+        qDebug() << "Solution found!";
+        return true;
+    }
+    else if (maze->at(x,y) == 1)
+        return false;
+    else if (maze->at(x,y) == 3)
+        return false;
+
+    maze->set(x,y,3);
+    visited.push_back(std::make_pair(x,y));
+    if ((x < maze->getHeight() && solveMazeWithBacktracking(x+1, y)) ||
+            (y > 1 && solveMazeWithBacktracking(x, y-1)) ||
+            (x > 1 && solveMazeWithBacktracking(x-1, y)) ||
+            (y < maze->getWidth() && solveMazeWithBacktracking(x, y+1)))
+        return true;
+
     return false;
 }

@@ -82,6 +82,11 @@
          </item>
          <item>
           <property name="text">
+           <string>DFS</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>A* search</string>
           </property>
          </item>

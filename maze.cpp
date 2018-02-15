@@ -1,6 +1,7 @@
 #include <random>
 #include <QDebug>
 #include <cstdio>
+#include <iostream>
 
 #include "maze.h"
 
@@ -129,7 +130,9 @@ void Maze::printMaze()
 {
     for (int i = 0; i < height; i++)
     {
-        qDebug() << map[i];
+        for (int j = 0; j < width; j++)
+            std::cout << map[i][j]<< " ";
+        std::cout << std::endl;
     }
 }
 
